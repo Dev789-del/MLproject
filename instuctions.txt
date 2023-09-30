@@ -1,0 +1,7 @@
+If you don't have pip command, please enter the following command: 
+-> python -m ensurepip --upgrade
+-> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+-> python get-pip.py
+Please enter the following command to run two language detector successfully():
+-> pip install langdetect
+-> pip install langcodes
