@@ -24,7 +24,7 @@ detect_model.score(X_test, y_test)
 #Define app main
 main_app = Tk()
 main_app.title("Language Detector")
-main_app.geometry("700x700")
+main_app.geometry("600x600")
 
 #Define detector function with method direct text 
 def language_detect():
