@@ -10,8 +10,20 @@ from langcodes import *
 from tkinter import filedialog
 import pycountry
 
-#Read the data
-dataset_program = pds.read_csv('MLproject\\base_dataset\\local_dataset.csv')
+#Read the data and specify data training and test
+dataset_program = pds.read_csv('base_language_set.csv')
+x = nump.array(dataset_program["Text"])
+y = nump.array(dataset_program["language"])
+
+cv = CountVectorizer()
+X = cv.fit_transform(x)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =   0.33, random_state = 40)
+
+#Define and activate the model
+detect_model = MultinomialNB()
+detect_model.fit(X_train, y_train)
+detect_model.score(X_test, y_test)
+
 #Define app main
 main_app = Tk()
 main_app.title("Language Detector")
@@ -20,15 +32,13 @@ main_app.geometry("700x700")
 #Define detector function with probabilities
 def language_detect():
     if app_text.compare("end-1c", "==", "1.0" ):
+        listbox.delete(0, END)
         listbox.insert(END, "You forgot to input anything...")
     else:
-        listbox.delete(0, END)
-        language_check = detect_langs(app_text.get(1.0, END))
-        for lang in language_check:
-            lang_code = lang.lang
-            lang_prob = round(lang.prob * 100, 3)
-            name = pycountry.languages.get(alpha_2=lang_code).name
-            listbox.insert(END, f"{name} -{lang_prob}%")
+        listbox.delete(0,END)
+        input_data = cv.transform([app_text.get(1.0, END)]).toarray()
+        detect_output = detect_model.predict(input_data)
+        listbox.insert(END, f"Language found: {detect_output}")
 
 #Define detector function 
 def check_language():
@@ -39,16 +49,21 @@ def check_language():
         content = f.read()
         # check if the file is empty
         if not content.strip():
+            listbox.delete(END, 0)
             listbox.insert(END, "You forgot to input anything...")
         else:
-            # detect the language
-            language = detect_langs(content)
-            listbox.delete(0, END)
-            for lang in language:
-                lang_code = lang.lang
-                lang_prob = round(lang.prob * 100, 3)
-                name = pycountry.languages.get(alpha_2=lang_code).name
-                listbox.insert(END, f"{name} -{lang_prob}%")
+            # # detect the language
+            # language = detect_langs(content)
+            # listbox.delete(0, END)
+            # for lang in language:
+            #     lang_code = lang.lang
+            #     lang_prob = round(lang.prob * 100, 3)
+            #     name = pycountry.languages.get(alpha_2=lang_code).name
+            #     listbox.insert(END, f"{name} -{lang_prob}%")
+            listbox.delete(0,END)
+            input_data = cv.transform([content]).toarray()
+            detect_output = detect_model.predict(input_data)
+            listbox.insert(END, f"Language found: {detect_output}")
 
 #Define box
 method2_label = Label(main_app, text = "Please select a file with txt extension", height = 5)
