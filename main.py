@@ -1,10 +1,17 @@
-#Python program to check language from a text box method with input
+#Import necessary modules
+import pandas as pds
+import numpy as nump
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 from tkinter import *
 from langdetect import *
 from langcodes import *
 from tkinter import filedialog
 import pycountry
 
+#Read the data
+dataset_program = pds.read_csv('MLproject\\base_dataset\\local_dataset.csv')
 #Define app main
 main_app = Tk()
 main_app.title("Language Detector")
@@ -13,7 +20,7 @@ main_app.geometry("700x700")
 #Define detector function with probabilities
 def language_detect():
     if app_text.compare("end-1c", "==", "1.0" ):
-        app_label.config(text = "You forgot to input anything...")
+        listbox.insert(END, "You forgot to input anything...")
     else:
         listbox.delete(0, END)
         language_check = detect_langs(app_text.get(1.0, END))
@@ -32,7 +39,7 @@ def check_language():
         content = f.read()
         # check if the file is empty
         if not content.strip():
-            app_label.config(text="The file is empty")
+            listbox.insert(END, "You forgot to input anything...")
         else:
             # detect the language
             language = detect_langs(content)
@@ -57,6 +64,9 @@ app_text = Text(main_app, height = 10, width = 40)
 app_text.pack(pady = 10)
 
 app_button = Button(main_app, text = "Detect Language", command = language_detect)
+app_button.pack(pady = 10)
+
+app_button = Label(main_app, text = "Output result:")
 app_button.pack(pady = 10)
 
 listbox = Listbox(main_app, width = 40, height = 5)
