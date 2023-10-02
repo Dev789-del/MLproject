@@ -29,18 +29,20 @@ main_app = Tk()
 main_app.title("Language Detector")
 main_app.geometry("700x700")
 
-#Define detector function with probabilities
+#Define detector function with method direct text 
 def language_detect():
+    #Create condition to input text
     if app_text.compare("end-1c", "==", "1.0" ):
         listbox.delete(0, END)
         listbox.insert(END, "You forgot to input anything...")
     else:
+        # predict the language and send back result
         listbox.delete(0,END)
         input_data = cv.transform([app_text.get(1.0, END)]).toarray()
         detect_output = detect_model.predict(input_data)
         listbox.insert(END, f"Language found: {detect_output}")
 
-#Define detector function 
+#Define detector function with method select a text file
 def check_language():
     # ask the clients to choose a file
     loca_file_name = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
@@ -52,14 +54,8 @@ def check_language():
             listbox.delete(END, 0)
             listbox.insert(END, "You forgot to input anything...")
         else:
-            # # detect the language
-            # language = detect_langs(content)
-            # listbox.delete(0, END)
-            # for lang in language:
-            #     lang_code = lang.lang
-            #     lang_prob = round(lang.prob * 100, 3)
-            #     name = pycountry.languages.get(alpha_2=lang_code).name
-            #     listbox.insert(END, f"{name} -{lang_prob}%")
+            # predict the language and send back result
+            
             listbox.delete(0,END)
             input_data = cv.transform([content]).toarray()
             detect_output = detect_model.predict(input_data)
