@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from tkinter import *
+from tkinter import filedialog
 
 #Read the data and specify data training and test
 dataset_program = pds.read_csv('base_language_set.csv')
