@@ -60,12 +60,12 @@ def check_language():
 
 #Define box
 method2_label = Label(main_app, text = "Please select a file with txt extension", height = 5)
+method2_label.pack()
+
 my_button = Button(main_app, text = "Select File", command = check_language)
+my_button.pack()
 
 app_top = Label(main_app, text = "Input text:", height = 3)
-
-method2_label.pack()
-my_button.pack()
 app_top.pack()
 
 app_text = Text(main_app, height = 10, width = 40)
@@ -74,11 +74,11 @@ app_text.pack(pady = 10)
 app_button = Button(main_app, text = "Detect Language", command = language_detect)
 app_button.pack(pady = 10)
 
-app_button = Label(main_app, text = "Output result:")
-app_button.pack(pady = 10)
+app_output_label = Label(main_app, text = "Output result:")
+app_output_label.pack(pady = 10)
 
 listbox = Listbox(main_app, width = 40, height = 5)
 listbox.pack()
+
 #Run code
 main_app.mainloop()
-
