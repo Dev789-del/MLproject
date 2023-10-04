@@ -21,6 +21,10 @@ detect_model = MultinomialNB()
 detect_model.fit(X_train, y_train)
 detect_model.score(X_test, y_test)
 
+#Calculate the amount of language
+dataset_program.isnull().sum()
+print(dataset_program["language"].value_counts())
+
 #Define app main
 main_app = Tk()
 main_app.title("Language Detector")
